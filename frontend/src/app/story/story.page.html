@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar *ngIf="story">
+    <ion-row>
+      <ion-button (click)="goBack()" color="light">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <ion-title>Story</ion-title>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <div *ngIf="story">
+      <img *ngIf="story.filename && !capturedPhoto" src="http://localhost:8080/images/{{story.filename}}" alt="image" />
+      <img *ngIf="story.filename && capturedPhoto" [src]="capturedPhoto" alt="image" />
+      <ion-row class="ion-align-items-center">
+        <ion-button color="primary" fill="outline" (click)="takePhoto()">
+          <ion-icon slot="start" name="camera-outline"></ion-icon>
+          Take a photo
+        </ion-button>
+        <ion-button color="primary" fill="outline" (click)="pickImage()">
+          <ion-icon slot="start" name="image-outline"></ion-icon>
+          Pick an image
+        </ion-button>
+        <ion-button color="danger" fill="outline" (click)="discardImage()">
+          <ion-icon slot="start" name="aperture"></ion-icon>
+          Discard image
+        </ion-button>
+      </ion-row>
+      <form [formGroup]="updateStoryFg" (ngSubmit)="updateButton(story.id)">
+        <ion-item>
+          <ion-textarea type="text" formControlName="title" id="title" name="title" autoGrow="true" maxLength="200">
+          </ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-textarea type="text" formControlName="content" [(ngModel)]="textValue" id="content" name="content"
+            autoGrow="true" maxLength="2000">
+          </ion-textarea>
+        </ion-item>
+        <ion-label>
+          {{textValue.length}} / {{maxChar}}
+        </ion-label>
+        <ion-button type="submit" color="light">Update </ion-button>
+      </form>
+
+    </div>
+  </ion-list>
+
+</ion-content>
